@@ -2,7 +2,9 @@ package sample
 
 import io.ktor.application.*
 import io.ktor.html.*
+import io.ktor.http.HttpStatusCode
 import io.ktor.http.content.*
+import io.ktor.response.respond
 import io.ktor.routing.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
@@ -35,6 +37,10 @@ fun main() {
                         script(src = "/static/sample-backend.js") {}
                     }
                 }
+            }
+
+            get("hello") {
+                call.respond(HttpStatusCode.Accepted, "hello there")
             }
             static("/static") {
                 resource("sample-backend.js")
