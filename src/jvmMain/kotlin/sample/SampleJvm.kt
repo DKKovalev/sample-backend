@@ -23,6 +23,9 @@ fun main() {
     val port = System.getenv("PORT")?.toInt() ?: 8080
     embeddedServer(Netty, port = port) {
         routing {
+            get("/") {
+                call.respond(HttpStatusCode.Accepted)
+            }
             get("hello") {
                 call.respond(HttpStatusCode.Accepted, "Well hello there")
             }
