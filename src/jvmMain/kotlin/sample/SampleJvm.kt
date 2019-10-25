@@ -2,9 +2,7 @@ package sample
 
 import io.ktor.application.*
 import io.ktor.html.*
-import io.ktor.http.HttpStatusCode
 import io.ktor.http.content.*
-import io.ktor.response.respond
 import io.ktor.routing.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
@@ -24,10 +22,22 @@ fun main() {
     embeddedServer(Netty, port = port) {
         routing {
             get("/") {
-                call.respond(HttpStatusCode.Accepted)
+                call.respondHtml {
+                    head {
+                        title("Hello from Ktor!")
+                    }
+                    body {
+                        +"${hello()} from Ktor. Check me value: ${Sample().checkMe()}"
+                        div {
+                            id = "js-response"
+                            +"Loading..."
+                        }
+                        script(src = "/static/sample-backend.js") {}
+                    }
+                }
             }
-            get("hello") {
-                call.respond(HttpStatusCode.Accepted, "Well hello there")
+            static("/static") {
+                resource("sample-backend.js")
             }
         }
     }.start(wait = true)
